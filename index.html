@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .container {
+        margin-top: 50px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .btn {
+        margin-right: 10px;
+      }
+      .student-item {
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        transition: box-shadow 0.3s;
+      }
+      .student-item:hover {
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      }
+      .modal-header {
+        background-color: #007bff;
+        color: white;
+      }
+      .modal-body {
+        background-color: #f1f1f1;
+      }
+      .modal-footer {
+        background-color: #f8f9fa;
+      }
+    </style>
+    <title>학생 관리 시스템</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>학생 관리 시스템</h1>
+      <button
+        id="open-add-modal"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#addStudentModal"
+      >
+        학생 추가
+      </button>
+      <button
+        id="open-update-modal"
+        class="btn btn-secondary"
+        data-bs-toggle="modal"
+        data-bs-target="#updateStudentModal"
+      >
+        학생 업데이트
+      </button>
+      <button
+        id="open-delete-modal"
+        class="btn btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#deleteStudentModal"
+      >
+        학생 삭제
+      </button>
+
+      <div id="student-list" class="mt-4"></div>
+    </div>
+
+    <!-- Modal for Adding Student -->
+    <div
+      class="modal fade"
+      id="addStudentModal"
+      tabindex="-1"
+      aria-labelledby="addStudentLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addStudentLabel">학생 추가</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="student-form">
+              <div class="mb-3">
+                <label for="name" class="form-label">이름</label>
+                <input type="text" class="form-control" id="name" required />
+              </div>
+              <div class="mb-3">
+                <label for="birth" class="form-label">생년월일</label>
+                <input type="date" class="form-control" id="birth" required />
+              </div>
+              <div class="mb-3">
+                <label for="gender" class="form-label">성별</label>
+                <select class="form-select" id="gender" required>
+                  <option value="Male">남성</option>
+                  <option value="Female">여성</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="major1" class="form-label">전공 1</label>
+                <input type="text" class="form-control" id="major1" required />
+              </div>
+              <div class="mb-3">
+                <label for="major2" class="form-label">전공 2</label>
+                <input type="text" class="form-control" id="major2" />
+              </div>
+              <button type="submit" class="btn btn-primary">추가</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Updating Student -->
+    <div
+      class="modal fade"
+      id="updateStudentModal"
+      tabindex="-1"
+      aria-labelledby="updateStudentLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateStudentLabel">학생 업데이트</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="student-update-form">
+              <div class="mb-3">
+                <label for="update-id" class="form-label">ID</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="update-id"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="update-name" class="form-label">이름</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="update-name"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="update-birth" class="form-label">생년월일</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="update-birth"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="update-gender" class="form-label">성별</label>
+                <select class="form-select" id="update-gender" required>
+                  <option value="Male">남성</option>
+                  <option value="Female">여성</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="update-major1" class="form-label">전공 1</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="update-major1"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="update-major2" class="form-label">전공 2</label>
+                <input type="text" class="form-control" id="update-major2" />
+              </div>
+              <button type="submit" class="btn btn-primary">업데이트</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Deleting Student -->
+    <div
+      class="modal fade"
+      id="deleteStudentModal"
+      tabindex="-1"
+      aria-labelledby="deleteStudentLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteStudentLabel">학생 삭제</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="student-delete-form">
+              <div class="mb-3">
+                <label for="delete-id" class="form-label"
+                  >삭제할 학생의 ID 입력</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="delete-id"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-danger">삭제</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const BASE_URL = "https://672c66621600dda5a9f84bfc.mockapi.io/user"; // 기본 주소 설정
+
+      // Fetch and display all students
+      const fetchStudents = async () => {
+        try {
+          const response = await fetch(BASE_URL); // 기본 주소로 요청
+          const data = await response.json();
+          displayStudents(data);
+        } catch (error) {
+          console.error("Error fetching students:", error);
+        }
+      };
+
+      // Display students in the DOM
+      const displayStudents = (students) => {
+        const studentList = document.getElementById("student-list");
+        studentList.innerHTML = "";
+        students.forEach((student) => {
+          const studentDiv = document.createElement("div");
+          studentDiv.classList.add("student-item");
+          studentDiv.innerHTML = `
+                    <strong>ID:</strong> ${student.id} <br>
+                    <strong>이름:</strong> ${student.name} <br>
+                    <strong>생년월일:</strong> ${student.birth} <br>
+                    <strong>성별:</strong> ${student.gender} <br>
+                    <strong>전공 1:</strong> ${student.major1} <br>
+                    <strong>전공 2:</strong> ${student.major2} <br>
+                `;
+          studentList.appendChild(studentDiv);
+        });
+      };
+
+      // Add new student
+      document
+        .getElementById("student-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const student = {
+            // ID 필드를 제거하고 서버가 자동으로 생성하게 함
+            name: document.getElementById("name").value,
+            birth: document.getElementById("birth").value,
+            gender: document.getElementById("gender").value,
+            major1: document.getElementById("major1").value,
+            major2: document.getElementById("major2").value,
+          };
+          try {
+            await fetch(BASE_URL, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(student),
+            });
+            fetchStudents(); // Refresh the student list
+            // Close the modal
+            const addStudentModal = bootstrap.Modal.getInstance(
+              document.getElementById("addStudentModal")
+            );
+            addStudentModal.hide();
+            // Reset the form
+            document.getElementById("student-form").reset();
+          } catch (error) {
+            console.error("Error adding student:", error);
+          }
+        });
+
+      // Update student
+      document
+        .getElementById("student-update-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const id = document.getElementById("update-id").value;
+          const updatedStudent = {
+            name: document.getElementById("update-name").value,
+            birth: document.getElementById("update-birth").value,
+            gender: document.getElementById("update-gender").value,
+            major1: document.getElementById("update-major1").value,
+            major2: document.getElementById("update-major2").value,
+          };
+          try {
+            await fetch(`${BASE_URL}/${id}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(updatedStudent),
+            });
+            fetchStudents(); // Refresh the student list
+            // Close the modal
+            const updateStudentModal = bootstrap.Modal.getInstance(
+              document.getElementById("updateStudentModal")
+            );
+            updateStudentModal.hide();
+            // Reset the form
+            document.getElementById("student-update-form").reset();
+          } catch (error) {
+            console.error("Error updating student:", error);
+          }
+        });
+
+      // Delete student
+      document
+        .getElementById("student-delete-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const id = document.getElementById("delete-id").value; // ID를 숫자로 변환
+          try {
+            await fetch(`${BASE_URL}/${id}`, {
+              method: "DELETE",
+            });
+            fetchStudents(); // Refresh the student list
+            // Close the modal
+            const deleteStudentModal = bootstrap.Modal.getInstance(
+              document.getElementById("deleteStudentModal")
+            );
+            deleteStudentModal.hide();
+            // Reset the form
+            document.getElementById("student-delete-form").reset();
+          } catch (error) {
+            console.error("Error deleting student:", error);
+          }
+        });
+
+      // Initial fetch
+      fetchStudents();
+    </script>
+  </body>
+</html>
